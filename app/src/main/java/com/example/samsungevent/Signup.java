@@ -80,8 +80,9 @@ public class Signup extends AppCompatActivity {
         });
     }
 
-    public void func(View v){
+    public void funct(View v){
         Intent i=new Intent(Signup.this,MainActivity.class);
         startActivity(i);
+        finish();
     }
 }

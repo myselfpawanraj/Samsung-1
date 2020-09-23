@@ -3,7 +3,9 @@ package com.example.samsungevent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,11 +25,13 @@ public class MainActivity extends AppCompatActivity {
     String email,password;
     Button login;
     ClientAPI clientAPI = Utils.getClientAPI();
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         email1=(EditText)findViewById(R.id.input_email1);
         password1=(EditText)findViewById(R.id.input_password1);
         signup=findViewById(R.id.link_login);
@@ -55,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                     Intent i1=new Intent(MainActivity.this,Homepage.class);
                                     startActivity(i1);
+                                    finish();
+
+
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putBoolean("isLoggedIn",true);
+                                    editor.apply();
                                 }
                                 else{
                                     Toast.makeText(MainActivity.this, response.message().toString(), Toast.LENGTH_SHORT).show();
@@ -78,10 +88,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onClick(View v){
-
         Intent i=new Intent(MainActivity.this,Signup.class);
         startActivity(i);
+        finish();
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
+
+        if(isLoggedIn){
+            Intent i=new Intent(MainActivity.this,Homepage.class);
+            startActivity(i);
+            finish();
+        }
+    }
 }
