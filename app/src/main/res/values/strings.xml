@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SamsungEvent</string>
+    <string name="no_dr">No DR</string>
+    <string name="mild">Mild</string>
+    <string name="moderate">Moderate</string>
+    <string name="severe">Severe</string>
+    <string name="proliferative_dr">" Proliferative DR"</string>
 </resources>
